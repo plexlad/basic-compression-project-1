@@ -1,2 +1,9 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using System;
+
+public class Compression
+{
+    public static void Main()
+    {
+        Console.WriteLine("hello guys, time to write some compression!!!");
+    }
+}
