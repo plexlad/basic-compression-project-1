@@ -1,0 +1,2 @@
+Hey guys, this is a little git repo I made for the project. I'm thinking if we've got time, just make something
+that you think might work to get started and then when we get together, we aren't starting completely from nothing
