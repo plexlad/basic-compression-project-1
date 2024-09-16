@@ -44,6 +44,8 @@ public class Compression
 
 public class BrockCompression: IBitStringCompressor
 {
+    Utility util = new Utility(true);
+
     public string Compress(string original)
     {
         return original;
@@ -56,24 +58,57 @@ public class BrockCompression: IBitStringCompressor
 
     // Using lowest factor function allows us to
     // use chunks of the code that don't allow for data loss
-    int LowestFactor(int number)
+    List<int> LargestFactor(int number)
     {
         // Iterate from 1 to the square root of the number
         // If number mod i is 0, return the factor
         // Stolen from Stack Overflow
 
+        List<int> output = new() {1};
         int max = (int)Math.Sqrt(number);
 
-        for (int factor = 1; factor <= max; factor++)
+        // Start at 2 to see
+        for (int factor = 2; factor <= max; factor++)
         {
             if (number % factor == 0)
             {
-                return factor;
+                output.Add()
             }
         }
 
         // Closest error exception
-        throw new IndexOutOfRangeException();
+        return largest;
+    }
+
+    // Turns the binary string into ASCII symbols for neater compression 
+    string ConvertToSymbols(string input)
+    {
+        var factorList = LargestFactor(input.Length);
+        // Chooses a length that is in the middle to create a size to work with
+        int chunkSize = factorList[factorList.Count / 2];
+
+        util.DebugMessage("This is cool");
+
+        return input; // Does not work for now
+    }
+}
+
+class Utility
+{
+    bool Debug { get; set; }
+    // This class allows us to activate and deactivate debug messages
+    public Utility(bool debug)
+    {
+        Debug = debug;
+    }
+
+    // Prints a message if in debug mode
+    public void DebugMessage(string message)
+    {
+        if (Debug)
+        {
+            Console.WriteLine(message);
+        }
     }
 }
 
