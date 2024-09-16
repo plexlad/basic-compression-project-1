@@ -53,10 +53,34 @@ public class BrockCompression: IBitStringCompressor
     {
         return original;
     }
+
+    // Using lowest factor function allows us to
+    // use chunks of the code that don't allow for data loss
+    int LowestFactor(int number)
+    {
+        // Iterate from 1 to the square root of the number
+        // If number mod i is 0, return the factor
+        // Stolen from Stack Overflow
+
+        int max = (int)Math.Sqrt(number);
+        int factor = 1;
+
+        for (; factor <= max; factor++)
+        {
+            if (number % factor == 0)
+            {
+                return factor;
+            }
+        }
+
+        // Closest error exception
+        throw new IndexOutOfRangeException();
+    }
 }
 
 public interface IBitStringCompressor
 {
+    // Assumes input and output of '0' and '1'
     string Compress(string original);
     string Decompress(string compressed);
 }
