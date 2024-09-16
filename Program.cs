@@ -63,9 +63,8 @@ public class BrockCompression: IBitStringCompressor
         // Stolen from Stack Overflow
 
         int max = (int)Math.Sqrt(number);
-        int factor = 1;
 
-        for (; factor <= max; factor++)
+        for (int factor = 1; factor <= max; factor++)
         {
             if (number % factor == 0)
             {
