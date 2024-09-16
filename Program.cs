@@ -41,3 +41,22 @@ public class Compression
         return a;
     }
 }
+
+public class BrockCompression: IBitStringCompressor
+{
+    public string Compress(string original)
+    {
+        return original;
+    }
+
+    public string Decompress(string original)
+    {
+        return original;
+    }
+}
+
+public interface IBitStringCompressor
+{
+    string Compress(string original);
+    string Decompress(string compressed);
+}
