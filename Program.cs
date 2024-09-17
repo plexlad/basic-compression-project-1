@@ -104,12 +104,21 @@ public class BrockCompression: IBitStringCompressor
     // Returns the symbolic string and the size of the chunk used
     (string, int) ConvertToSymbols(string input)
     {
+        string output;
         var factorList = LargestFactor(input.Length);
         // Chooses a length that is in the middle to create a chunk to work with
         int chunkSize = factorList[factorList.Count / 2];
+        List<string> listOfChunks = new();
 
-        // To iterate
-        for ()
+        // To iterate and create the individual chunks in a list
+        // Iterates through the whole input until the size is equivalent
+        for (int i = 0; i < input.Length - 1; i = i + chunkSize)
+        {
+            string chunk = input.Substring(i, i+chunkSize);
+            listOfChunks.Add(chunk);
+        }
+
+        // TODO: Turn the chunks into a ASCII character appended to a string
 
         util.DebugMessage($"Symbolic version: {input}");
         return (input, chunkSize); // Does not work for now
