@@ -65,9 +65,10 @@ public class BrockCompression: IBitStringCompressor
 
     public string Compress(string original)
     {
-        var (binaryToSymbols, _) = ConvertToSymbols(original);
+        // The symbolic version converts from binary to ASCII alphabet for ease of use
+        var (symbolicVersion, chunkSize) = ConvertToSymbols(original);
 
-        return binaryToSymbols;
+        return symbolicVersion;
     }
 
     public string Decompress(string original)
