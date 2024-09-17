@@ -2,6 +2,7 @@
 //Brock, Sergio, and Harry
 //Starting 9/15
 using System;
+using System.Security.Cryptography;
 
 public class Compression
 {
@@ -24,7 +25,11 @@ public class Compression
         {
             j[a] = rnd.Next(0, 2);
         }
+
+        BrockTest();
+
         return j;
+
     }
 
     //Harry's idea for compression!!! Super rough draft, but the idea is just take two or three
@@ -40,6 +45,18 @@ public class Compression
         int[] a = b;
         return a;
     }
+
+    public static void BrockTest()
+    {
+        var bc = new BrockCompression();
+        var toEncode = "0100111100001101000010000111111000010010010100111100011010101011";
+        Console.WriteLine($"To encode: {toEncode}");
+        var compressed = bc.Compress(toEncode);
+        Console.WriteLine($"Encoded: {compressed}");
+        Console.WriteLine($"The length of the Brock test string is {compressed.Length}");
+        var depressed = bc.Decompress(compressed);
+        Console.WriteLine($"Decoded: {depressed}");
+    }
 }
 
 public class BrockCompression: IBitStringCompressor
@@ -48,7 +65,9 @@ public class BrockCompression: IBitStringCompressor
 
     public string Compress(string original)
     {
-        return original;
+        var (binaryToSymbols, _) = ConvertToSymbols(original);
+
+        return binaryToSymbols;
     }
 
     public string Decompress(string original)
@@ -67,29 +86,37 @@ public class BrockCompression: IBitStringCompressor
         List<int> output = new() {1};
         int max = (int)Math.Sqrt(number);
 
-        // Start at 2 to see
+        // Start at 2 because 1 is automatically there
         for (int factor = 2; factor <= max; factor++)
         {
             if (number % factor == 0)
             {
-                output.Add()
+                output.Add(factor);
             }
         }
 
         // Closest error exception
-        return largest;
+        return output;
     }
 
     // Turns the binary string into ASCII symbols for neater compression 
-    string ConvertToSymbols(string input)
+    // Returns the symbolic string and the size of the chunk used
+    (string, int) ConvertToSymbols(string input)
     {
         var factorList = LargestFactor(input.Length);
-        // Chooses a length that is in the middle to create a size to work with
+        // Chooses a length that is in the middle to create a chunk to work with
         int chunkSize = factorList[factorList.Count / 2];
 
-        util.DebugMessage("This is cool");
+        // To iterate
+        for ()
 
-        return input; // Does not work for now
+        util.DebugMessage($"Symbolic version: {input}");
+        return (input, chunkSize); // Does not work for now
+    }
+
+    string ConvertFromSymbols(string input)
+    {
+        return input;  
     }
 }
 
