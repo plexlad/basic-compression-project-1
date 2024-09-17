@@ -29,7 +29,6 @@ public class Compression
         BrockTest();
 
         return j;
-
     }
 
     //Harry's idea for compression!!! Super rough draft, but the idea is just take two or three
@@ -53,20 +52,19 @@ public class Compression
         Console.WriteLine($"To encode: {toEncode}");
         var compressed = bc.Compress(toEncode);
         Console.WriteLine($"Encoded: {compressed}");
-        Console.WriteLine($"The length of the Brock test string is {compressed.Length}");
         var depressed = bc.Decompress(compressed);
         Console.WriteLine($"Decoded: {depressed}");
     }
 }
 
-public class BrockCompression: IBitStringCompressor
+public class BrockCompression : IBitStringCompressor
 {
     Utility util = new Utility(true);
 
     public string Compress(string original)
     {
         // The symbolic version converts from binary to ASCII alphabet for ease of use
-        var (symbolicVersion, chunkSize) = ConvertToSymbols(original);
+        var (symbolicVersion, chunkSize) = QuickConvertToSymbols(original);
 
         return symbolicVersion;
     }
@@ -78,13 +76,13 @@ public class BrockCompression: IBitStringCompressor
 
     // Using lowest factor function allows us to
     // use chunks of the code that don't allow for data loss
-    List<int> LargestFactor(int number)
+    static List<int> Factors(int number)
     {
         // Iterate from 1 to the square root of the number
         // If number mod i is 0, return the factor
         // Stolen from Stack Overflow
 
-        List<int> output = new() {1};
+        List<int> output = new() { 1 };
         int max = (int)Math.Sqrt(number);
 
         // Start at 2 because 1 is automatically there
@@ -100,12 +98,36 @@ public class BrockCompression: IBitStringCompressor
         return output;
     }
 
+    // Return string and chunk size
+    (string, int) QuickConvertToSymbols(string input)
+    {
+        const int chunkSize = 4;
+
+        // Create a list of chunks to interpret
+        List<string> listOfChunks = new();
+
+        // Create the list of chunks
+        for (int i = 0; i < input.Length - 1; i = i + chunkSize)
+        {
+            string chunk = input.Substring(i, chunkSize);
+            listOfChunks.Add(chunk);
+        }
+
+        foreach (var chunk in listOfChunks)
+        {
+            util.DebugMessage(chunk);
+        }
+        // Convert the list of chunks
+
+        return (input, chunkSize);
+    }
+
     // Turns the binary string into ASCII symbols for neater compression 
     // Returns the symbolic string and the size of the chunk used
     (string, int) ConvertToSymbols(string input)
     {
         string output;
-        var factorList = LargestFactor(input.Length);
+        var factorList = Factors(input.Length);
         // Chooses a length that is in the middle to create a chunk to work with
         int chunkSize = factorList[factorList.Count / 2];
         List<string> listOfChunks = new();
@@ -114,7 +136,7 @@ public class BrockCompression: IBitStringCompressor
         // Iterates through the whole input until the size is equivalent
         for (int i = 0; i < input.Length - 1; i = i + chunkSize)
         {
-            string chunk = input.Substring(i, i+chunkSize);
+            string chunk = input.Substring(i, i + chunkSize);
             listOfChunks.Add(chunk);
         }
 
@@ -126,7 +148,7 @@ public class BrockCompression: IBitStringCompressor
 
     string ConvertFromSymbols(string input)
     {
-        return input;  
+        return input;
     }
 }
 
